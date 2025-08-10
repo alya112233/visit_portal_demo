@@ -1,0 +1,38 @@
+{% extends 'visits/base.html' %}
+{% block content %}
+  <h2>طلب حجز موعد زيارة عائلية</h2>
+  <form method="post" enctype="multipart/form-data" class="card">
+    {% csrf_token %}
+
+    <label>الاسم الثلاثي
+      {{ form.full_name }} {{ form.full_name.errors }}
+    </label>
+
+    <label>رقم الهوية الوطنية
+      {{ form.national_id }} {{ form.national_id.errors }}
+    </label>
+
+     <label>  هوية النزيل
+      {{ form.inmate_id }} {{ form.inmate_id.errors }}
+    </label>
+
+    <label>رقم الجوال
+      {{ form.phone }} {{ form.phone.errors }}
+    </label>
+
+    <label>صلة القرابة
+      {{ form.relation }} {{ form.relation.errors }}
+    </label>
+
+    <label>المستندات المطلوبة (PDF/صورة)
+      {{ form.documents }} {{ form.documents.errors }}
+    </label>
+
+    <label class="terms">
+      {{ form.terms_accepted }} أُقرّ بالموافقة على الشروط والأحكام
+      {{ form.terms_accepted.errors }}
+    </label>
+
+    <button type="submit">إرسال الطلب</button>
+  </form>
+{% endblock %}

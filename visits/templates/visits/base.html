@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>بوابة زيارة الأسر – ديمو</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/modern-normalize/modern-normalize.min.css">
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'visits/style.css' %}">
+</head>
+<body>
+  <header class="container header">
+    <h1>بوابة أتمتة زيارة أسر النزلاء بالبيت العائلي (ديمو)</h1>
+  </header>
+  <main class="container">
+    {% for message in messages %}
+      <div class="msg {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="container small">
+    <p>منصة وهمية للعرض – غير مرتبطة بأي جهة.</p>
+  </footer>
+</body>
+</html>

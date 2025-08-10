@@ -1,0 +1,16 @@
+{% extends 'visits/base.html' %}
+{% block content %}
+  <div class="card">
+    <h3>تم إرسال طلبك بنجاح</h3>
+    <p>سيتم التواصل معكم عند التحقق من البيانات.</p>
+    <p><a href="{% url 'visits:request_form' %}">إرسال طلب جديد</a></p>
+  </div>
+{% endblock %}
+@staff_member_required
+def review_list(request):
+    qs = VisitRequest.objects.order_by('-created_at')
+    return render(request, 'visits/review_list.html', {'requests': qs})
+
+@staff_member_required
+def review_detail(request, pk):
+    ...

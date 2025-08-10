@@ -1,0 +1,50 @@
+{% extends 'visits/base.html' %}
+{% block content %}
+  {% now "Y-m-d\\TH:i" as now_dt %}
+  <h2>تفاصيل الطلب</h2>
+
+  <div class="card">
+    <p><strong>الاسم:</strong> {{ obj.full_name }}</p>
+    <p><strong>الهوية:</strong> {{ obj.national_id }}</p>
+    <p><strong>هوية النزيل:</strong> {{ obj.inmate_id }}</p>
+    <p><strong>الجوال:</strong> {{ obj.phone }}</p>
+    <p><strong>القرابة:</strong> {{ obj.get_relation_display }}</p>
+
+    <p><strong>المرفق:</strong>
+      {% if obj.documents %}
+        <a href="{{ obj.documents.url }}" target="_blank">عرض</a>
+      {% else %}
+        —
+      {% endif %}
+    </p>
+
+    <p><strong>الحالة:</strong> {{ obj.get_status_display }}</p>
+
+    <form method="post" class="stack" novalidate>
+      {% csrf_token %}
+      <label>تاريخ ووقت الموعد:
+        <input
+          type="datetime-local"
+          name="appointment_datetime"
+          value="{{ obj.appointment_datetime|date:'Y-m-d\\TH:i' }}"
+          min="{{ now_dt }}"
+          required
+        >
+        <small>سيتم حفظ الوقت حسب المنطقة الزمنية (Asia/Riyadh).</small>
+      </label>
+
+      <div class="row">
+        <button name="action" value="approve">قبول الطلب</button>
+        <button name="action" value="reject" class="danger" type="submit">رفض</button>
+      </div>
+
+      <label>ملاحظات:
+        <textarea name="review_notes" placeholder="أضف ملاحظاتك هنا">{{ obj.review_notes }}</textarea>
+      </label>
+    </form>
+
+    <a href="{% url 'visits:review_list' %}" style="display:inline-block;margin-top:12px;padding:8px 14px;background:#444;color:#fff;text-decoration:none;border-radius:8px;">
+      ⬅ رجوع لصفحة الموظف
+    </a>
+  </div>
+{% endblock %}

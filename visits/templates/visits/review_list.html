@@ -1,0 +1,48 @@
+{% extends 'visits/base.html' %}
+{% block content %}
+  <h2>مراجعة الطلبات (للديمو)</h2>
+
+  {# رسائل النجاح/التحذير إن وُجدت #}
+  {% if messages %}
+    <div class="alert-messages" style="margin: 0 0 12px;">
+      {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}">
+          {{ message|safe }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>الاسم</th>
+        <th>الهوية</th>
+        <th>هوية النزيل</th>
+        <th>الجوال</th>
+        <th>الحالة</th>
+        <th>أُنشئ</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in requests %}
+      <tr>
+        <td>{{ r.full_name|default:"—" }}</td>
+        <td>{{ r.national_id|default:"—" }}</td>
+        <td>{{ r.inmate_id|default:"—" }}</td>
+        <td>{{ r.phone|default:"—" }}</td>
+        <td>
+          <span class="status-badge">{{ r.get_status_display|default:"—" }}</span>
+        </td>
+        <td>{{ r.created_at|date:"Y-m-d H:i" }}</td>
+        <td><a href="{% url 'visits:review_detail' r.pk %}">تفاصيل</a></td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="7" style="text-align:center;">لا توجد طلبات بعد.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
